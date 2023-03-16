@@ -1,4 +1,5 @@
 import React from "react";
+import "./SearchBar.css";
 
 export class SearchBar extends React.Component {
   state = { input: localStorage.getItem("input") };
@@ -10,11 +11,13 @@ export class SearchBar extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="search-bar-container">
         <input
+          className="search-bar"
           type={"text"}
           onChange={this.handleChange}
           value={this.state.input ? this.state.input : ""}
+          placeholder="Your search"
         ></input>
       </div>
     );
