@@ -19,14 +19,3 @@ export class Cards extends React.Component {
     );
   }
 }
-
-// {CARDS.map(({ CardTitle, CardDescription, CardBackgroundUrl }, index) => (
-//     <Card key={CardTitle}  CardTitle={CARDS[index].CardTitle} CardDescription={CARDS[index].CardDescription}
-//     CardBackgroundUrl={CARDS[index].CardBackgroundUrl}></Card>
-//   ))}
-
-//   <Card
-//     CardTitle={CARDS[0].CardTitle}
-//     CardDescription={CARDS[0].CardDescription}
-//     CardBackgroundUrl={CARDS[0].CardBackgroundUrl}
-//   ></Card>
