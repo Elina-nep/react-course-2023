@@ -8,3 +8,10 @@
   background-position: center;
   background-size: cover;
 }
+
+.card-additional-info {
+  display: flex;
+  font-size: 0.5rem;
+  justify-content: space-between;
+  padding: 0 1rem;
+}

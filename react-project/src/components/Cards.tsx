@@ -13,6 +13,9 @@ export class Cards extends React.Component {
             CardTitle={card.CardTitle}
             CardDescription={card.CardDescription}
             CardBackgroundUrl={card.CardBackgroundUrl}
+            CardDate={card.CardDate}
+            CardAvailable={card.CardAvailable}
+            CardCountry={card.CardCountry}
           ></Card>
         ))}
       </div>

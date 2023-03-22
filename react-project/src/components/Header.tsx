@@ -8,7 +8,7 @@ export class Header extends React.Component<{ label: string }> {
     return (
       <div className="header flex">
         <div className="page-title">
-          {this.pageTitle ? "About us" : "Main page"}
+          {this.pageTitle ? this.pageTitle : "Main page"}
         </div>
         <div>
           <ul className="header__nav">
@@ -16,7 +16,10 @@ export class Header extends React.Component<{ label: string }> {
               <a href="/">Main page</a>
             </li>
             <li>
-              <a href="/about"> About us</a>
+              <a href="/About"> About us</a>
+            </li>
+            <li>
+              <a href="/Form"> Add card</a>
             </li>
           </ul>
         </div>
