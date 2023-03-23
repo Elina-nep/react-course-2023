@@ -10,7 +10,7 @@ export const checkFormValid = (values: ICardValues) => {
     availableValid: false,
     formValid: false,
   };
-
+  console.log(values.image);
   const formats = ["jpg", "jpeg", "png"];
 
   result.titleValid =

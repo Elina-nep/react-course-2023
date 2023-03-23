@@ -63,7 +63,7 @@ export class Form extends React.Component<
       description: this.description.current?.value,
       date: this.date.current?.value,
       country: this.country.current?.value,
-      image: this.image.current?.value,
+      image: this.image.current!.value,
       availableY: this.availableY.current?.checked,
       availableN: this.availableN.current?.checked,
       agree: this.agree.current?.value,
@@ -72,7 +72,8 @@ export class Form extends React.Component<
     this.setState({ valid: result });
     console.log(this.state);
     if (result.formValid) {
-      this.cardsList.push(values);
+      (values.image = URL.createObjectURL(this.image.current!.files![0])),
+        this.cardsList.push(values);
       this.setState({
         cardList: [...this.state.cardList, values],
       });
@@ -124,6 +125,7 @@ export class Form extends React.Component<
               placeholder="Upload image"
               required
               ref={this.image}
+              accept="image/*"
             />
             <p>Upload your image</p>
           </div>

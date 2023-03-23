@@ -20,7 +20,7 @@ export class FormCards extends React.Component<
             key={card.title! + index}
             CardTitle={String(card.title)}
             CardDescription={String(card.description)}
-            CardBackgroundUrl={"./src/assets/img.png"}
+            CardBackgroundUrl={String(card.image)}
             CardDate={String(card.date)}
             CardAvailable={Boolean(card.availableY)}
             CardCountry={String(card.country)}
