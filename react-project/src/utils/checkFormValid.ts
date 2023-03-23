@@ -1,13 +1,6 @@
-export const checkFormValid = (values: {
-  title: string | undefined;
-  description: string | undefined;
-  date: string | undefined;
-  country: string | undefined;
-  image: string | undefined;
-  availableY: string | undefined;
-  availableN: string | undefined;
-  agree: string | undefined;
-}) => {
+import { ICardValues } from "../pages/Form";
+
+export const checkFormValid = (values: ICardValues) => {
   const result = {
     titleValid: false,
     descriptionValid: false,
@@ -33,8 +26,7 @@ export const checkFormValid = (values: {
       ? true
       : false;
 
-  result.availableValid =
-    values.availableY === "true" || values.availableN === "true";
+  result.availableValid = Boolean(values.availableY || values.availableN);
 
   result.formValid =
     result.imageValid &&
