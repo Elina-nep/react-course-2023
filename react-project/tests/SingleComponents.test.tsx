@@ -9,13 +9,13 @@ import { Cards } from "../src/components/Cards";
 
 describe("Header", () => {
   test("Should render header", () => {
-    const wrapper = render(<Header label="about" />);
+    const wrapper = render(<Header label="About" />);
 
     expect(wrapper).toBeTruthy();
 
     const title = wrapper.container.querySelector(".page-title");
     expect(title).toBeTruthy();
-    expect(title).toHaveTextContent(/About us/);
+    expect(title).toHaveTextContent(/About/);
 
     const nav = wrapper.container.querySelector(".header__nav");
     expect(nav).toBeTruthy();
@@ -69,6 +69,9 @@ describe("Card", () => {
         CardTitle={"Card"}
         CardDescription={"Description"}
         CardBackgroundUrl={"some.url"}
+        CardDate={"25.03.2023"}
+        CardAvailable={true}
+        CardCountry={"Brasil"}
       />
     );
 

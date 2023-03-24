@@ -70,7 +70,6 @@ export class Form extends React.Component<
     };
     const result = checkFormValid(values);
     this.setState({ valid: result });
-    console.log(this.state);
     if (result.formValid) {
       (values.image = URL.createObjectURL(this.image.current!.files![0])),
         this.cardsList.push(values);
@@ -117,6 +116,7 @@ export class Form extends React.Component<
             placeholder="Date of addition"
             name="date"
             ref={this.date}
+            required
           />
 
           <div className="form-inline">
@@ -166,6 +166,11 @@ export class Form extends React.Component<
               ref={this.availableN}
             />
             <label htmlFor="not-available">no</label>
+            {this.state.valid.availableValid ? (
+              ""
+            ) : (
+              <ErrorMessage text="this is demanded field" />
+            )}
           </div>
 
           <div className="form-inline">
