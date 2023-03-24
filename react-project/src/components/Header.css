@@ -1,0 +1,20 @@
+.header {
+  background-color: bisque;
+  width: 100vw;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__nav {
+  list-style: none;
+}
+
+.header__nav li {
+  display: inline;
+  margin: 0 1rem;
+}
+
+.page-title {
+  font-weight: bold;
+  margin-left: 1rem;
+}
