@@ -13,9 +13,17 @@ export const checkFormValid = (values: ICardValues) => {
   const formats = ["jpg", "jpeg", "png"];
 
   result.titleValid =
-    values.title && values.title.trim().length > 1 ? true : false;
+    values.title &&
+    values.title.trim().length > 1 &&
+    values.title.trim().length < 10
+      ? true
+      : false;
   result.descriptionValid =
-    values.description && values.description.trim().length > 1 ? true : false;
+    values.description &&
+    values.description.trim().length > 10 &&
+    values.description.trim().length < 100
+      ? true
+      : false;
   result.countryValid =
     values.country && values.country.trim().length > 1 ? true : false;
   result.dateValid =

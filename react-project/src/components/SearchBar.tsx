@@ -1,25 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SearchBar.css";
 
-export class SearchBar extends React.Component {
-  state = { input: localStorage.getItem("input") };
+export const SearchBar = () => {
+  const [state, setState] = useState(localStorage.getItem("input"));
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     localStorage.setItem("input", event.target.value);
-    this.setState({ input: event.target.value });
+    setState(event.target.value);
   };
 
-  render() {
-    return (
-      <div className="search-bar-container">
-        <input
-          className="search-bar"
-          type={"text"}
-          onChange={this.handleChange}
-          value={this.state.input ? this.state.input : ""}
-          placeholder="Your search"
-        ></input>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="search-bar-container">
+      <input
+        className="search-bar"
+        type={"text"}
+        onChange={handleChange}
+        value={state ? state : ""}
+        placeholder="Your search"
+      ></input>
+    </div>
+  );
+};
