@@ -1,126 +1,96 @@
 import "./Form.css";
-import React, { createRef, useState } from "react";
-import { checkFormValid } from "../utils/checkFormValid";
+import React, { useState } from "react";
+import { imgValid, lengthValid } from "../utils/checkFormValid";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { FormCards } from "../components/FormCards";
-
-interface IValid {
-  titleValid: boolean;
-  descriptionValid: boolean;
-  countryValid: boolean;
-  dateValid: boolean;
-  imageValid: boolean;
-  availableValid: boolean;
-  formValid: boolean;
-}
-export interface ICardValues {
-  title: string | undefined;
-  description: string | undefined;
-  date: string | undefined;
-  country: string | undefined;
-  image: string | undefined;
-  availableY: boolean | undefined;
-  availableN: boolean | undefined;
-  agree: string | undefined;
-}
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { ICardValues, IFormValues } from "../interfaces/formInterfaces";
+import { composeNewCard } from "../utils/composeNewCard";
 
 export const Form = () => {
-  const [valid, setValid] = useState<IValid>({
-    titleValid: true,
-    descriptionValid: true,
-    countryValid: true,
-    dateValid: true,
-    imageValid: true,
-    availableValid: true,
-    formValid: false,
+  const [cardList, setCardList] = useState<ICardValues[]>([]);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<IFormValues>({
+    reValidateMode: "onSubmit",
   });
 
-  const [cardList, setCardList] = useState<ICardValues[]>([]);
-
-  const title = createRef<HTMLInputElement>();
-  const description = createRef<HTMLInputElement>();
-  const date = createRef<HTMLInputElement>();
-  const country = createRef<HTMLInputElement>();
-  const image = createRef<HTMLInputElement>();
-  const availableY = createRef<HTMLInputElement>();
-  const availableN = createRef<HTMLInputElement>();
-  const agree = createRef<HTMLInputElement>();
-  const form = createRef<HTMLFormElement>();
-
-  const submitHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-    const values = {
-      title: title.current?.value,
-      description: description.current?.value,
-      date: date.current?.value,
-      country: country.current?.value,
-      image: image.current!.value,
-      availableY: availableY.current?.checked,
-      availableN: availableN.current?.checked,
-      agree: agree.current?.value,
-    };
-    const result = checkFormValid(values);
-
-    setValid(result);
-
-    if (result.formValid) {
-      values.image = URL.createObjectURL(image.current!.files![0]);
-      console.log(values);
-      setCardList([...cardList, values]);
-      alert("Card was added");
-      form.current!.reset();
-    }
+  const onSubmit: SubmitHandler<IFormValues> = (data) => {
+    const newCard: ICardValues = composeNewCard(data);
+    setCardList([...cardList, newCard]);
+    alert("Card was added");
+    reset();
   };
 
   return (
     <>
-      <form className="form" onSubmit={submitHandler} ref={form}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <h2>Add your card information</h2>
 
-        <input type="text" placeholder="Enter title" ref={title} name="title" />
-        {valid.titleValid ? (
-          ""
-        ) : (
-          <ErrorMessage text="title, it should be from 1 to 10 symbols" />
+        <input
+          type="text"
+          placeholder="Enter title"
+          {...register("title", {
+            required: true,
+            maxLength: 20,
+            minLength: 3,
+            validate: (value) => lengthValid(value),
+          })}
+          aria-invalid={errors.title ? "true" : "false"}
+        />
+        {errors.title && (
+          <ErrorMessage text="title, it should be from 3 to 20 symbols" />
         )}
 
         <input
           type="text"
           placeholder="Enter description"
-          name="description"
-          ref={description}
+          {...register("description", {
+            required: true,
+            maxLength: 100,
+            minLength: 10,
+            validate: (value) => lengthValid(value),
+          })}
+          aria-invalid={errors.description ? "true" : "false"}
         />
-        {valid.descriptionValid ? (
-          ""
-        ) : (
+        {errors.description && (
           <ErrorMessage text="description, it should be from 10 to 100 symbols" />
         )}
 
         <input
           type="date"
           placeholder="Date of addition"
-          name="date"
-          ref={date}
+          {...register("date", { required: true })}
+          aria-invalid={errors.date ? "true" : "false"}
         />
-        {valid.dateValid ? "" : <ErrorMessage text="date" />}
+        {errors.date && <ErrorMessage text="date, please enter some date" />}
 
         <div className="form-inline">
           <input
             type="file"
             placeholder="Upload image"
-            ref={image}
-            accept="image/*"
+            {...register("image", {
+              required: true,
+              validate: (value) => imgValid(value),
+            })}
+            aria-invalid={errors.image ? "true" : "false"}
           />
           <p>Upload your image</p>
         </div>
-        {valid.imageValid ? (
-          ""
-        ) : (
+        {errors.image && (
           <ErrorMessage text="image: only .jpeg or .png formats" />
         )}
 
         <div className="form-inline">
-          <input list="country" name="country" ref={country} />
+          <input
+            list="country"
+            {...register("country", { required: true })}
+            aria-invalid={errors.country ? "true" : "false"}
+          />
           <datalist id="country">
             <option value="USA" />
             <option value="Europe" />
@@ -130,44 +100,46 @@ export const Form = () => {
           </datalist>
           <p>Select country</p>
         </div>
-        {valid.countryValid ? "" : <ErrorMessage text="country" />}
+        {errors.country && <ErrorMessage text="country" />}
 
         <div className="form-inline">
           <p>Is it available?</p>
-
-          <input
-            type="radio"
-            id="available"
+          <Controller
+            control={control}
             name="available"
-            value="true"
-            ref={availableY}
+            rules={{ required: true }}
+            aria-invalid={errors.available ? "true" : "false"}
+            render={({ field: { onChange } }) => (
+              <>
+                <input
+                  type="radio"
+                  id="available"
+                  value="true"
+                  name="isAvailable"
+                  onChange={onChange}
+                />
+                <label htmlFor="available">yes</label>
+                <input
+                  type="radio"
+                  id="not-available"
+                  value="false"
+                  name="isAvailable"
+                  onChange={onChange}
+                />
+                <label htmlFor="not-available">no</label>
+              </>
+            )}
           />
-          <label htmlFor="available">yes</label>
-          <input
-            type="radio"
-            id="not-available"
-            name="available"
-            value="false"
-            ref={availableN}
-          />
-          <label htmlFor="not-available">no</label>
-          {valid.availableValid ? (
-            ""
-          ) : (
-            <ErrorMessage text="this is demanded field" />
-          )}
         </div>
+        {errors.available && (
+          <ErrorMessage text="choice, please choose the status" />
+        )}
 
         <div className="form-inline">
-          <input
-            type="checkbox"
-            placeholder="Upload image"
-            required
-            name="agree"
-            ref={agree}
-          />
+          <input type="checkbox" {...register("agree", { required: true })} />
           <p>I agree to add the card</p>
         </div>
+        {errors.agree && <ErrorMessage text="agreement" />}
 
         <button type="submit">Add card</button>
       </form>
