@@ -1,7 +1,9 @@
 export const imgValid = (image: FileList | undefined) => {
   const formats = ["jpg", "jpeg", "png"];
   return Boolean(
-    image && formats.includes(String(image[0].name.split(".").slice(-1)))
+    image &&
+      image[0] &&
+      formats.includes(String(image[0].name.split(".").slice(-1)))
   );
 };
 

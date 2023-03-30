@@ -1,31 +1,26 @@
-import { ICardValues } from "../src/pages/Form";
-import { checkFormValid } from "../src/utils/checkFormValid";
+import { imgValid, lengthValid } from "../src/utils/checkFormValid";
+import { composeNewCard } from "../src/utils/composeNewCard";
 
 test("checking form", () => {
-  const values: ICardValues = {
-    title: "Card1",
-    description: "Some card description of card 1",
-    image: "./src/assets/img.png",
-    date: "22.12.2023",
-    availableY: true,
-    availableN: false,
+  const resultTrue = lengthValid("Card1");
+
+  const resultFalse = imgValid(new FileList()) || lengthValid("     ");
+
+  expect(resultTrue).toBeTruthy();
+  expect(resultFalse).toBeFalsy();
+});
+
+test("compose card values", () => {
+  const newCard = composeNewCard({
+    title: "title",
+    description: "description",
+    date: "25/02/22",
     country: "USA",
+    image: new FileList(),
+    available: true,
     agree: "on",
-  };
+  });
 
-  const resultTrue = checkFormValid(values);
-  const falsyValues = {
-    title: "  ",
-    description: "  ",
-    image: "./src/assets/img.eps",
-    date: "",
-    availableY: false,
-    availableN: false,
-    country: "   ",
-    agree: "",
-  };
-  const resultFalse = checkFormValid(falsyValues);
-
-  expect(resultTrue.formValid).toBeTruthy();
-  expect(resultFalse.formValid).toBeFalsy();
+  expect(newCard).toBeTruthy();
+  expect(newCard.available).toBeTruthy();
 });
