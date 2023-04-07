@@ -20,7 +20,9 @@ export const Form = () => {
   });
 
   const onSubmit: SubmitHandler<IFormValues> = (data) => {
-    const newCard: ICardValues = composeNewCard(data);
+    const newData = { ...data, image: URL.createObjectURL(data.image![0]) };
+
+    const newCard: ICardValues = composeNewCard(newData);
     setCardList([...cardList, newCard]);
     alert("Card was added");
     reset();
@@ -43,7 +45,7 @@ export const Form = () => {
           aria-invalid={errors.title ? "true" : "false"}
         />
         {errors.title && (
-          <ErrorMessage text="title, it should be from 3 to 20 symbols" />
+          <ErrorMessage message="title, it should be from 3 to 20 symbols" />
         )}
 
         <input
@@ -58,7 +60,7 @@ export const Form = () => {
           aria-invalid={errors.description ? "true" : "false"}
         />
         {errors.description && (
-          <ErrorMessage text="description, it should be from 10 to 100 symbols" />
+          <ErrorMessage message="description, it should be from 10 to 100 symbols" />
         )}
 
         <input
@@ -67,7 +69,7 @@ export const Form = () => {
           {...register("date", { required: true })}
           aria-invalid={errors.date ? "true" : "false"}
         />
-        {errors.date && <ErrorMessage text="date, please enter some date" />}
+        {errors.date && <ErrorMessage message="date, please enter some date" />}
 
         <div className="form-inline">
           <input
@@ -82,7 +84,7 @@ export const Form = () => {
           <p>Upload your image</p>
         </div>
         {errors.image && (
-          <ErrorMessage text="image: only .jpeg or .png formats" />
+          <ErrorMessage message="image: only .jpeg or .png formats" />
         )}
 
         <div className="form-inline">
@@ -100,7 +102,7 @@ export const Form = () => {
           </datalist>
           <p>Select country</p>
         </div>
-        {errors.country && <ErrorMessage text="country" />}
+        {errors.country && <ErrorMessage message="country" />}
 
         <div className="form-inline">
           <p>Is it available?</p>
@@ -132,14 +134,14 @@ export const Form = () => {
           />
         </div>
         {errors.available && (
-          <ErrorMessage text="choice, please choose the status" />
+          <ErrorMessage message="choice, please choose the status" />
         )}
 
         <div className="form-inline">
           <input type="checkbox" {...register("agree", { required: true })} />
           <p>I agree to add the card</p>
         </div>
-        {errors.agree && <ErrorMessage text="agreement" />}
+        {errors.agree && <ErrorMessage message="agreement" />}
 
         <button type="submit">Add card</button>
       </form>

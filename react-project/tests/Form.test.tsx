@@ -18,7 +18,7 @@ describe("Form", () => {
 
 describe("Error", () => {
   test("Should Error message", () => {
-    const wrapper = render(<ErrorMessage text={"title"} />);
+    const wrapper = render(<ErrorMessage message={"Not valid title"} />);
 
     expect(wrapper).toBeTruthy();
 

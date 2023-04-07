@@ -6,6 +6,7 @@ import { Header } from "../src/components/Header";
 import { SearchBar } from "../src/components/SearchBar";
 import { Card } from "../src/components/CardComponent";
 import { Cards } from "../src/components/Cards";
+import { Modal } from "../src/components/Modal";
 
 describe("Header", () => {
   test("Should render header", () => {
@@ -33,8 +34,9 @@ describe("Header", () => {
 
 describe("Search bar", () => {
   test("Should render input", () => {
-    localStorage.setItem("input", "test");
-    const wrapper = render(<SearchBar />);
+    const wrapper = render(
+      <SearchBar setSearch={() => {}} setIsLoading={() => {}} />
+    );
 
     expect(wrapper).toBeTruthy();
 
@@ -42,7 +44,6 @@ describe("Search bar", () => {
       ".search-bar"
     ) as HTMLInputElement | null;
     expect(input).toBeTruthy();
-    expect(input).toHaveValue("test");
 
     if (input) {
       input.textContent = "another test";
@@ -87,11 +88,45 @@ describe("Card", () => {
 
 describe("Card list", () => {
   test("Should render card list", () => {
-    const wrapper = render(<Cards />);
+    const wrapper = render(
+      <Cards
+        input={"Frodo"}
+        setIsLoading={() => {}}
+        setErrorMessage={() => {}}
+      />
+    );
 
     expect(wrapper).toBeTruthy();
 
     const container = wrapper.container.querySelector(".cards-container");
+    expect(container).toBeTruthy();
+  });
+});
+
+describe("Modal", () => {
+  test("Should render modal", () => {
+    const wrapper = render(
+      <Modal title={"Frodo"} onClose={() => {}}>
+        <div className="card card-modal">
+          <div
+            className="card-img"
+            style={{
+              backgroundImage: `url("./src/assets/lor.jpg")`,
+            }}
+          />
+          <p>{"Hobbit"}</p>
+          <div className="card-additional-info">
+            <p className="card-date">Gender: {"Male"}</p>
+            <p className="card-available">Spouse: {""}</p>
+            <p className="country">Birth: {"some date"}</p>
+          </div>
+        </div>
+      </Modal>
+    );
+
+    expect(wrapper).toBeTruthy();
+
+    const container = wrapper.container.querySelector(".card-modal");
     expect(container).toBeTruthy();
   });
 });

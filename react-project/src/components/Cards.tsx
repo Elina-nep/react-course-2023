@@ -7,9 +7,11 @@ import { ApiCard } from "./ApiCard";
 export const Cards = ({
   input,
   setIsLoading,
+  setErrorMessage,
 }: {
   input: string;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [persons, setPersons] = useState<IApiCard[]>([
     {
@@ -33,8 +35,11 @@ export const Cards = ({
         setPersons([...res.docs]);
         setIsLoading(false);
       })
-      .catch(() => {});
-  }, [input, setIsLoading]);
+      .catch((err) => {
+        setIsLoading(false);
+        setErrorMessage(err.message);
+      });
+  }, [input, setErrorMessage, setIsLoading]);
 
   return (
     <div className="cards-container flex">

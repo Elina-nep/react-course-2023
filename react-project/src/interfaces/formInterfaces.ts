@@ -17,6 +17,16 @@ export interface IFormValues {
   agree: string | undefined;
 }
 
+export interface IFormToCardValues {
+  title: string | undefined;
+  description: string | undefined;
+  date: string | undefined;
+  country: string | undefined;
+  image: string | undefined;
+  available: boolean | undefined;
+  agree: string | undefined;
+}
+
 export interface ICardValues {
   title: string;
   description: string;

@@ -18,8 +18,6 @@ describe("MainPage", () => {
 
     const cards = wrapper.container.querySelectorAll(".cards-container");
     expect(cards).toBeTruthy();
-
-    expect(screen.getAllByText(/Some card description/i)).toBeTruthy();
   });
 });
 
