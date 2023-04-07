@@ -1,0 +1,15 @@
+.search-bar-container {
+  margin: 1rem auto;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+}
+.search-bar {
+  border-radius: 1rem;
+  height: 1rem;
+  padding: 0.5rem 2rem;
+  background-image: url("../assets/search.png");
+  background-size: 1rem;
+  background-position: 0.5rem;
+  background-repeat: no-repeat;
+}
