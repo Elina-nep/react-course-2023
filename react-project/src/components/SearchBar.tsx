@@ -1,24 +1,21 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import "./SearchBar.css";
+import { IRootState } from "../interfaces/store";
+import { changeSearch } from "../store/sliceSearch";
 
-export const SearchBar = ({
-  setSearch,
-  setIsLoading,
-}: {
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const [state, setState] = useState("");
+export const SearchBar = () => {
+  const search = useSelector((state: IRootState) => state.search.search);
+  const [state, setState] = useState(search);
+  const dispatch = useDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    localStorage.setItem("input", event.target.value);
     setState(event.target.value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      setSearch(state);
-      setIsLoading(true);
+      dispatch(changeSearch({ search: state }));
     }
   };
 
@@ -29,10 +26,15 @@ export const SearchBar = ({
         className="search-bar"
         type={"text"}
         onChange={handleChange}
-        value={state ? state : ""}
+        value={state}
         placeholder="Your search"
         onKeyDown={handleKeyDown}
       ></input>
     </div>
   );
 };
+
+// setIsLoading,
+// }: {
+//   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+// }

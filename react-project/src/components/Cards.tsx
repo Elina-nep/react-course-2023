@@ -1,49 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Cards.css";
-import { fetchData } from "../utils/fetchData";
-import { IApiCard } from "../interfaces/apiCardInterface";
+import { useGetCharactersQuery } from "../utils/fetchData";
 import { ApiCard } from "./ApiCard";
+import { useSelector } from "react-redux";
+import { IRootState } from "../interfaces/store";
+import { Loader } from "./Loader";
+import { ErrorMessage } from "./ErrorMessage";
 
-export const Cards = ({
-  input,
-  setIsLoading,
-  setErrorMessage,
-}: {
-  input: string;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-}) => {
-  const [persons, setPersons] = useState<IApiCard[]>([
-    {
-      _id: "",
-      height: "",
-      race: "",
-      gender: "",
-      birth: "",
-      spouse: "",
-      death: "",
-      realm: "",
-      hair: "",
-      name: "",
-      wikiUrl: "",
+export const Cards = () => {
+  const search = useSelector((state: IRootState) => state.search.search);
+
+  const {
+    data = {
+      docs: [],
     },
-  ]);
+    isFetching,
+    error,
+  } = useGetCharactersQuery(search);
 
-  useEffect(() => {
-    fetchData(input)
-      .then((res) => {
-        setPersons([...res.docs]);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        setErrorMessage(err.message);
-      });
-  }, [input, setErrorMessage, setIsLoading]);
+  if (error) {
+    if ("status" in error) {
+      const errMsg =
+        "error" in error ? error.error : JSON.stringify(error.data);
+      return <ErrorMessage message={errMsg} />;
+    } else {
+      return <ErrorMessage message={error.message!} />;
+    }
+  }
+
+  if (isFetching) return <Loader />;
 
   return (
     <div className="cards-container flex">
-      {persons.map((card) => (
+      {data.docs.map((card) => (
         <ApiCard
           name={card.name}
           spouse={card.spouse}
@@ -57,3 +46,31 @@ export const Cards = ({
     </div>
   );
 };
+
+// const [persons, setPersons] = useState<IApiCard[]>([
+//   {
+//     _id: "",
+//     height: "",
+//     race: "",
+//     gender: "",
+//     birth: "",
+//     spouse: "",
+//     death: "",
+//     realm: "",
+//     hair: "",
+//     name: "",
+//     wikiUrl: "",
+//   },
+// ]);
+
+// useEffect(() => {
+//   fetchData(search)
+//     .then((res) => {
+//       setPersons([...res.docs]);
+//       setIsLoading(false);
+//     })
+//     .catch((err) => {
+//       setIsLoading(false);
+//       setErrorMessage(err.message);
+//     });
+// }, [search, setErrorMessage, setIsLoading]);

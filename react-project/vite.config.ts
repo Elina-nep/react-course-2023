@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import type { UserConfig as VitestUserConfigInterface } from "vitest/config";
 
-export default defineConfig({
-  plugins: [react()],
+const vitestConfig: VitestUserConfigInterface = {
   test: {
     globals: true,
     environment: "happy-dom",
@@ -13,4 +13,9 @@ export default defineConfig({
       all: true,
     },
   },
+};
+
+export default defineConfig({
+  plugins: [react()],
+  test: vitestConfig.test,
 });

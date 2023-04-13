@@ -1,5 +1,6 @@
 import React from "react";
 import "./Header.css";
+import { Link } from "react-router-dom";
 
 export const Header = ({ label }: { label: string }) => {
   const array = label.split("/");
@@ -11,13 +12,13 @@ export const Header = ({ label }: { label: string }) => {
       <div>
         <ul className="header__nav">
           <li>
-            <a href="/">Main page</a>
+            <Link to="/">Main page</Link>
           </li>
           <li>
-            <a href="/About"> About us</a>
+            <Link to="/About"> About us</Link>
           </li>
           <li>
-            <a href="/Form"> Add card</a>
+            <Link to="/Form"> Add card</Link>
           </li>
         </ul>
       </div>
