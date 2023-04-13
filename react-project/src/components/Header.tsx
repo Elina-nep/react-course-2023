@@ -1,6 +1,6 @@
 import React from "react";
-import "./Header.css";
 import { Link } from "react-router-dom";
+import "./css/Header.css";
 
 export const Header = ({ label }: { label: string }) => {
   const array = label.split("/");

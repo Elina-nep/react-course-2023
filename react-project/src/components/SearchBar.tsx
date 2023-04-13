@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import "./SearchBar.css";
 import { IRootState } from "../interfaces/store";
 import { changeSearch } from "../store/sliceSearch";
+import "./css/SearchBar.css";
 
 export const SearchBar = () => {
   const search = useSelector((state: IRootState) => state.search.search);
@@ -33,8 +33,3 @@ export const SearchBar = () => {
     </div>
   );
 };
-
-// setIsLoading,
-// }: {
-//   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-// }

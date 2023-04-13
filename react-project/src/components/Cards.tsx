@@ -1,11 +1,11 @@
 import React from "react";
-import "./Cards.css";
-import { useGetCharactersQuery } from "../utils/fetchData";
-import { ApiCard } from "./ApiCard";
 import { useSelector } from "react-redux";
+import { ApiCard } from "./ApiCard";
 import { IRootState } from "../interfaces/store";
 import { Loader } from "./Loader";
 import { ErrorMessage } from "./ErrorMessage";
+import { useGetCharactersQuery } from "../utils/fetchData";
+import "./css/Cards.css";
 
 export const Cards = () => {
   const search = useSelector((state: IRootState) => state.search.search);
@@ -46,31 +46,3 @@ export const Cards = () => {
     </div>
   );
 };
-
-// const [persons, setPersons] = useState<IApiCard[]>([
-//   {
-//     _id: "",
-//     height: "",
-//     race: "",
-//     gender: "",
-//     birth: "",
-//     spouse: "",
-//     death: "",
-//     realm: "",
-//     hair: "",
-//     name: "",
-//     wikiUrl: "",
-//   },
-// ]);
-
-// useEffect(() => {
-//   fetchData(search)
-//     .then((res) => {
-//       setPersons([...res.docs]);
-//       setIsLoading(false);
-//     })
-//     .catch((err) => {
-//       setIsLoading(false);
-//       setErrorMessage(err.message);
-//     });
-// }, [search, setErrorMessage, setIsLoading]);

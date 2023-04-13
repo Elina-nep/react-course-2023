@@ -1,10 +1,10 @@
+import React from "react";
+import { createRoutesFromElements, Route } from "react-router-dom";
 import { NotFound } from "../pages/404";
 import { AboutUs } from "../pages/About";
 import { MainPage } from "../pages/MainPage";
 import { Layout } from "../pages/Layout";
 import { Form } from "../pages/Form";
-import React from "react";
-import { createRoutesFromElements, Route } from "react-router-dom";
 
 export const routerObj = createRoutesFromElements(
   <>

@@ -1,7 +1,7 @@
 import { ICardValues } from "../interfaces/formInterfaces";
 import React, { useEffect, useState } from "react";
-import "./CardComponent.css";
 import { Card } from "./CardComponent";
+import "./css/CardComponent.css";
 
 export const FormCards = ({ props }: { props: ICardValues[] }) => {
   console.log(props);

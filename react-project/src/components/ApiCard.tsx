@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CardComponent.css";
+import "./css/CardComponent.css";
 import { Modal } from "./Modal";
 
 interface IApiCardProps {
