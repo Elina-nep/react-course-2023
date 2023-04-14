@@ -40,6 +40,7 @@ export const Form = () => {
         <input
           type="text"
           placeholder="Enter title"
+          id="title"
           {...register("title", {
             required: true,
             maxLength: 20,
@@ -55,6 +56,7 @@ export const Form = () => {
         <input
           type="text"
           placeholder="Enter description"
+          id="description"
           {...register("description", {
             required: true,
             maxLength: 100,
@@ -70,6 +72,7 @@ export const Form = () => {
         <input
           type="date"
           placeholder="Date of addition"
+          id="date"
           {...register("date", { required: true })}
           aria-invalid={errors.date ? "true" : "false"}
         />
@@ -78,6 +81,7 @@ export const Form = () => {
         <div className="form-inline">
           <input
             type="file"
+            id="image"
             placeholder="Upload image"
             {...register("image", {
               required: true,
@@ -142,12 +146,18 @@ export const Form = () => {
         )}
 
         <div className="form-inline">
-          <input type="checkbox" {...register("agree", { required: true })} />
+          <input
+            type="checkbox"
+            id="agree"
+            {...register("agree", { required: true })}
+          />
           <p>I agree to add the card</p>
         </div>
         {errors.agree && <ErrorMessage message="agreement" />}
 
-        <button type="submit">Add card</button>
+        <button type="submit" id="submit">
+          Add card
+        </button>
       </form>
 
       <FormCards props={cardList} />

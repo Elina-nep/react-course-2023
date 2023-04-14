@@ -1,64 +1,32 @@
 import { describe, test, expect } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
-
-import { Header } from "../src/components/Header";
 import { SearchBar } from "../src/components/SearchBar";
 import { Card } from "../src/components/CardComponent";
 import { Cards } from "../src/components/Cards";
 import { Modal } from "../src/components/Modal";
-
-describe("Header", () => {
-  test("Should render header", () => {
-    const wrapper = render(<Header label="About" />);
-
-    expect(wrapper).toBeTruthy();
-
-    const title = wrapper.container.querySelector(".page-title");
-    expect(title).toBeTruthy();
-    expect(title).toHaveTextContent(/About/);
-
-    const nav = wrapper.container.querySelector(".header__nav");
-    expect(nav).toBeTruthy();
-    expect(screen.getAllByRole("link")).toBeTruthy();
-  });
-
-  test("Header has proper title", () => {
-    const wrapper = render(<Header label="/" />);
-
-    const title = wrapper.container.querySelector(".page-title");
-    expect(title).toBeTruthy();
-    expect(title).toHaveTextContent(/Main page/);
-  });
-});
+import { renderWithProviders } from "./helper-test";
+import { ApiCard } from "../src/components/ApiCard";
 
 describe("Search bar", () => {
-  test("Should render input", () => {
-    const wrapper = render(
-      <SearchBar setSearch={() => {}} setIsLoading={() => {}} />
-    );
-
+  test("Should render input", async () => {
+    const wrapper = renderWithProviders(<SearchBar />);
     expect(wrapper).toBeTruthy();
-
     const input = wrapper.container.querySelector(
       ".search-bar"
     ) as HTMLInputElement | null;
     expect(input).toBeTruthy();
-
     if (input) {
       input.textContent = "another test";
       expect(input.textContent).toBe("another test");
-
       expect(input.type).toBe("text");
-
       fireEvent.change(input, {
         target: {
           value: "additional test",
         },
       });
+      fireEvent.keyPress(input, { key: "Enter", code: "Enter", charCode: 13 });
       expect(input.value).toBe("additional test");
-
-      expect(localStorage.getItem("input")).toBe("additional test");
     }
   });
 });
@@ -75,12 +43,9 @@ describe("Card", () => {
         CardCountry={"Brasil"}
       />
     );
-
     expect(wrapper).toBeTruthy();
-
     expect(screen.getByText("Card")).toBeTruthy();
     expect(screen.getByText("Description")).toBeTruthy();
-
     const img = wrapper.container.querySelector(".card-img");
     expect(img).toBeTruthy();
   });
@@ -88,18 +53,39 @@ describe("Card", () => {
 
 describe("Card list", () => {
   test("Should render card list", () => {
-    const wrapper = render(
-      <Cards
-        input={"Frodo"}
-        setIsLoading={() => {}}
-        setErrorMessage={() => {}}
+    const wrapper = renderWithProviders(<Cards />);
+    expect(wrapper).toBeTruthy();
+    const loader = wrapper.container.querySelector(".spinner-container");
+    expect(loader).toBeTruthy();
+  });
+});
+
+describe("Card", () => {
+  test("Should render one card", () => {
+    const wrapper = renderWithProviders(
+      <ApiCard
+        name={"Frodo"}
+        spouse={""}
+        race={"Hobbit"}
+        gender={"Male"}
+        wikiUrl={""}
+        birth={"some date"}
       />
     );
-
     expect(wrapper).toBeTruthy();
 
-    const container = wrapper.container.querySelector(".cards-container");
-    expect(container).toBeTruthy();
+    const card = wrapper.container.querySelector(".card");
+    expect(card).toBeTruthy();
+
+    fireEvent(
+      card!,
+      new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+    const modal = wrapper.container.querySelector(".modal-container");
+    expect(modal).toBeTruthy();
   });
 });
 
