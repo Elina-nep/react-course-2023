@@ -4,7 +4,6 @@ import { Card } from "./CardComponent";
 import "./css/CardComponent.css";
 
 export const FormCards = ({ props }: { props: ICardValues[] }) => {
-  console.log(props);
   const [cards, setCards] = useState<ICardValues[]>(props);
 
   useEffect(() => {

@@ -22,7 +22,7 @@ export const Cards = () => {
     if ("status" in error) {
       const errMsg =
         "error" in error ? error.error : JSON.stringify(error.data);
-      return <ErrorMessage message={errMsg} />;
+      return <ErrorMessage message={errMsg + data.docs + "_check"} />;
     } else {
       return <ErrorMessage message={error.message!} />;
     }

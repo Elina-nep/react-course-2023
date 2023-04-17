@@ -1,36 +1,31 @@
 import React from "react";
-import { describe, test, expect, vi } from "vitest";
+import { describe, test, expect } from "vitest";
 import { Cards } from "../src/components/Cards";
 import { renderWithProviders } from "./helper-test";
+import { waitFor } from "@testing-library/react";
+import { fetch, Headers, Request, Response } from "cross-fetch";
 
-global.fetch = vi.fn();
-
-function createFetchResponse(data) {
-  return {
-    json: () =>
-      new Promise((resolve) => {
-        console.log("promice");
-        resolve(data);
-      }),
-  };
-}
+global.fetch = fetch;
+global.Headers = Headers;
+global.Request = Request;
+global.Response = Response;
 
 describe("Card list", () => {
-  test("Should render card list", () => {
-    const todoListResponse = [
-      {
-        data: {
-          docs: [],
-        },
-      },
-    ];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (fetch as any).mockResolvedValue(createFetchResponse(todoListResponse));
-
+  test("Should render card list", async () => {
     const wrapper = renderWithProviders(<Cards />);
     expect(wrapper).toBeTruthy();
     const loader = wrapper.container.querySelector(".spinner-container");
     expect(loader).toBeTruthy();
+
+    await waitFor(async () => {
+      const error = await wrapper.container.querySelector(".error-message");
+      expect(error).toBeTruthy();
+    });
+
+    // await waitFor(async () => {
+    //   const card = await wrapper.container.querySelector(".card");
+    //   expect(card).toBeTruthy();
+    // });
     // const card = wrapper.container.querySelector(".card");
     // expect(card).toBeTruthy();
   });

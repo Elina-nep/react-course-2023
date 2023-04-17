@@ -10,6 +10,7 @@ const vitestConfig: VitestUserConfigInterface = {
     coverage: {
       provider: "istanbul",
       include: ["src/**/*", "tests/*"],
+      exclude: ["src/main.tsx"],
       all: true,
     },
   },
