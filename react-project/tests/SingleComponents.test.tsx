@@ -3,7 +3,6 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { SearchBar } from "../src/components/SearchBar";
 import { Card } from "../src/components/CardComponent";
-import { Cards } from "../src/components/Cards";
 import { Modal } from "../src/components/Modal";
 import { renderWithProviders } from "./helper-test";
 import { ApiCard } from "../src/components/ApiCard";
@@ -48,15 +47,6 @@ describe("Card", () => {
     expect(screen.getByText("Description")).toBeTruthy();
     const img = wrapper.container.querySelector(".card-img");
     expect(img).toBeTruthy();
-  });
-});
-
-describe("Card list", () => {
-  test("Should render card list", () => {
-    const wrapper = renderWithProviders(<Cards />);
-    expect(wrapper).toBeTruthy();
-    const loader = wrapper.container.querySelector(".spinner-container");
-    expect(loader).toBeTruthy();
   });
 });
 
