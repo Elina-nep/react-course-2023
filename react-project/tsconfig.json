@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es5",
     "lib": ["dom", "esnext", "dom.iterable"],
     "jsx": "react",
     "module": "esnext",
@@ -15,5 +15,11 @@
     "baseUrl": "./src",
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*", "styled.d.ts"]
+  "include": ["./src/**/*", "styled.d.ts"],
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true,
+    "experimentalSpecifierResolution": "node",
+    "esModuleInterop": true
+  }
 }
