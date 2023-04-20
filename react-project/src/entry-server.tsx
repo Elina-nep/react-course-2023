@@ -1,10 +1,7 @@
-import ReactDOMServer, {
-  PipeableStream,
-  renderToPipeableStream,
-} from "react-dom/server";
+import ReactDOMServer, { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
-import React, { ReactNode } from "react";
-import { Location, Route, Routes } from "react-router-dom";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { NotFound } from "./pages/404";
 import { AboutUs } from "./pages/About";

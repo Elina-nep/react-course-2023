@@ -13,9 +13,11 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["cypress", "node"]
   },
   "include": ["./src/**/*", "styled.d.ts"],
+  "exclude": ["cypress"],
   "ts-node": {
     "esm": true,
     "transpileOnly": true,

@@ -50,7 +50,7 @@ export const Form = () => {
           aria-invalid={errors.title ? "true" : "false"}
         />
         {errors.title && (
-          <ErrorMessage message="title, it should be from 3 to 20 symbols" />
+          <ErrorMessage message="Incorrect title, it should be from 3 to 20 symbols" />
         )}
 
         <input
@@ -66,7 +66,7 @@ export const Form = () => {
           aria-invalid={errors.description ? "true" : "false"}
         />
         {errors.description && (
-          <ErrorMessage message="description, it should be from 10 to 100 symbols" />
+          <ErrorMessage message="Incorrect description, it should be from 10 to 100 symbols" />
         )}
 
         <input
@@ -76,7 +76,9 @@ export const Form = () => {
           {...register("date", { required: true })}
           aria-invalid={errors.date ? "true" : "false"}
         />
-        {errors.date && <ErrorMessage message="date, please enter some date" />}
+        {errors.date && (
+          <ErrorMessage message="Incorrect date, please enter some date" />
+        )}
 
         <div className="form-inline">
           <input
@@ -92,17 +94,18 @@ export const Form = () => {
           <p>Upload your image</p>
         </div>
         {errors.image && (
-          <ErrorMessage message="image: only .jpeg or .png formats" />
+          <ErrorMessage message="Incorrect image: only .jpeg or .png formats" />
         )}
 
         <div className="form-inline">
           <input
             list="country"
+            id="country_input"
             {...register("country", { required: true })}
             aria-invalid={errors.country ? "true" : "false"}
           />
           <datalist id="country">
-            <option value="USA" />
+            <option value="USA" selected />
             <option value="Europe" />
             <option value="China" />
             <option value="Russia" />
@@ -110,7 +113,7 @@ export const Form = () => {
           </datalist>
           <p>Select country</p>
         </div>
-        {errors.country && <ErrorMessage message="country" />}
+        {errors.country && <ErrorMessage message="Please, select country" />}
 
         <div className="form-inline">
           <p>Is it available?</p>
@@ -142,7 +145,7 @@ export const Form = () => {
           />
         </div>
         {errors.available && (
-          <ErrorMessage message="choice, please choose the status" />
+          <ErrorMessage message="Please, choose, please choose the status" />
         )}
 
         <div className="form-inline">
@@ -153,7 +156,7 @@ export const Form = () => {
           />
           <p>I agree to add the card</p>
         </div>
-        {errors.agree && <ErrorMessage message="agreement" />}
+        {errors.agree && <ErrorMessage message="You should agree" />}
 
         <button type="submit" id="submit">
           Add card
