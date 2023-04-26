@@ -5,6 +5,8 @@ describe("Form test", () => {
     cy.visit("http://localhost:3001/");
     cy.contains("Add card").click();
     cy.url().should("include", "/Form");
+    cy.get("#submit").click();
+    cy.contains("Incorrect description");
     cy.get("#title").type("Title");
     cy.get("#description").type("Description");
     cy.get("#date").type("2023-04-20");

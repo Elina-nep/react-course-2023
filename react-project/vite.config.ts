@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import istanbul from "vite-plugin-istanbul";
 import type { UserConfig as VitestUserConfigInterface } from "vitest/config";
 
 const vitestConfig: VitestUserConfigInterface = {
@@ -14,9 +15,21 @@ const vitestConfig: VitestUserConfigInterface = {
       all: true,
     },
   },
+  server: {
+    watch: {
+      ignored: ["/coverage/"],
+    },
+  },
 };
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    istanbul({
+      cypress: true,
+      requireEnv: false,
+    }),
+  ],
   test: vitestConfig.test,
+  build: { sourcemap: true },
 });

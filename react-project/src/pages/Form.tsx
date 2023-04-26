@@ -105,7 +105,7 @@ export const Form = () => {
             aria-invalid={errors.country ? "true" : "false"}
           />
           <datalist id="country">
-            <option value="USA" selected />
+            <option value="USA" />
             <option value="Europe" />
             <option value="China" />
             <option value="Russia" />
