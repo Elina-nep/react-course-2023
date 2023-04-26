@@ -28,7 +28,6 @@ export const LORApi = createApi({
   endpoints: (build) => ({
     getCharacters: build.query<{ docs: IApiCard[] }, string>({
       query: (name) => {
-        console.log("fetch_____", name);
         if (!name) {
           return `?limit=9`;
         }

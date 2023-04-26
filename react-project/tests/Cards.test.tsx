@@ -21,12 +21,5 @@ describe("Card list", () => {
       const error = await wrapper.container.querySelector(".error-message");
       expect(error).toBeTruthy();
     });
-
-    // await waitFor(async () => {
-    //   const card = await wrapper.container.querySelector(".card");
-    //   expect(card).toBeTruthy();
-    // });
-    // const card = wrapper.container.querySelector(".card");
-    // expect(card).toBeTruthy();
   });
 });

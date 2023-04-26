@@ -2,7 +2,6 @@ import { hydrateRoot } from "react-dom/client";
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { store } from "./store/store";
 import { NotFound } from "./pages/404";
 import { AboutUs } from "./pages/About";
 import { MainPage } from "./pages/MainPage";
@@ -16,7 +15,6 @@ import {
 } from "@reduxjs/toolkit";
 import { reducer } from "./store/store";
 import { LORApi } from "./utils/fetchData";
-// import { store } from "./store/store";
 
 type RootState = StateFromReducersMapObject<typeof reducer>;
 
@@ -25,7 +23,6 @@ declare global {
     __PRELOADED_STATE__: PreloadedState<RootState> | undefined;
   }
 }
-console.log("window", window.__PRELOADED_STATE__);
 const store = configureStore({
   preloadedState: window.__PRELOADED_STATE__,
   reducer: reducer,

@@ -19,14 +19,8 @@ const _createServer = async () => {
     const stream = await render(req.originalUrl, {
       bootstrapModules: ["./src/entry-client.tsx"],
       onShellReady() {
-        console.log("stream", stream);
-        if (stream) {
-          stream.pipe(res);
-        }
+        stream.pipe(res);
       },
-      // onAllReady() {
-      //   res.end();
-      // },
       onError(err) {
         console.error(err);
       },

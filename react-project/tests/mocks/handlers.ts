@@ -9,11 +9,6 @@ global.Response = Response;
 
 export const handlers = [
   rest.get("https://the-one-api.dev/v2/character", (req, res, ctx) => {
-    console.log("____________res");
     return res(ctx.status(200), ctx.json(response));
   }),
-  //   rest.get("https://the-one-api.dev/v2/character", (req, res, ctx) => {
-  //     req.url.searchParams.get("name");
-  //     return res(ctx.status(200), ctx.json(response));
-  //   }),
 ];
