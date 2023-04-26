@@ -1,5 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IApiCard } from "../interfaces/apiCardInterface";
+import {
+  buildCreateApi,
+  coreModule,
+  reactHooksModule,
+} from "@reduxjs/toolkit/query/react";
+import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IApiCard } from "interfaces/apiCardInterface";
+
+const createApi = buildCreateApi(
+  coreModule(),
+  reactHooksModule({ unstable__sideEffectsInRender: true })
+);
 
 const headers = {
   Accept: "application/json",
@@ -12,9 +22,13 @@ export const LORApi = createApi({
     baseUrl: `https://the-one-api.dev/v2/character`,
     headers: headers,
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    return action.payload[reducerPath];
+  },
   endpoints: (build) => ({
     getCharacters: build.query<{ docs: IApiCard[] }, string>({
       query: (name) => {
+        console.log("fetch_____", name);
         if (!name) {
           return `?limit=9`;
         }
@@ -23,5 +37,3 @@ export const LORApi = createApi({
     }),
   }),
 });
-
-export const { useGetCharactersQuery } = LORApi;

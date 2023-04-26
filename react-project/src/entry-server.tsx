@@ -10,25 +10,35 @@ import { Layout } from "./pages/Layout";
 import { Form } from "./pages/Form";
 import { store } from "./store/store";
 import "./main.css";
+import { Html } from "./pages/Html";
+import { LORApi } from "./utils/createApi";
 
-export function render(
+export async function render(
   url: string,
   opts: ReactDOMServer.RenderToPipeableStreamOptions | undefined
 ) {
+  const preloadedState = store.getState();
+
+  store.dispatch(LORApi.endpoints.getCharacters.initiate(""));
+  await Promise.all(store.dispatch(LORApi.util.getRunningQueriesThunk()));
+
   const stream = renderToPipeableStream(
-    <StaticRouter location={url}>
+    <Html preloadedState={preloadedState}>
       <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<Layout label={"Page"} />}>
-            <Route index element={<MainPage />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/form" element={<Form />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <StaticRouter location={url}>
+          <Routes>
+            <Route path="/" element={<Layout label={"Page"} />}>
+              <Route index element={<MainPage />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/form" element={<Form />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </StaticRouter>
       </Provider>
-    </StaticRouter>,
+    </Html>,
     opts
   );
+
   return stream;
 }

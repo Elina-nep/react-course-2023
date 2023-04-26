@@ -3,12 +3,14 @@ import searchReducer from "./sliceSearch";
 import formCardReducer from "./sliceFormCard";
 import { LORApi } from "../utils/fetchData";
 
+export const reducer = {
+  search: searchReducer,
+  [LORApi.reducerPath]: LORApi.reducer,
+  formCard: formCardReducer,
+};
+
 export const store = configureStore({
-  reducer: {
-    search: searchReducer,
-    [LORApi.reducerPath]: LORApi.reducer,
-    formCard: formCardReducer,
-  },
+  reducer: reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(LORApi.middleware),
 });

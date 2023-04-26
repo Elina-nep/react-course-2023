@@ -2,14 +2,38 @@ import { hydrateRoot } from "react-dom/client";
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { store } from "./store/store";
+// import { store } from "./store/store";
 import { NotFound } from "./pages/404";
 import { AboutUs } from "./pages/About";
 import { MainPage } from "./pages/MainPage";
 import { Layout } from "./pages/Layout";
 import { Form } from "./pages/Form";
 import "./main.css";
+import {
+  PreloadedState,
+  StateFromReducersMapObject,
+  configureStore,
+} from "@reduxjs/toolkit";
+import { reducer } from "./store/store";
+import { LORApi } from "./utils/fetchData";
+// import { store } from "./store/store";
 
+type RootState = StateFromReducersMapObject<typeof reducer>;
+
+declare global {
+  interface Window {
+    __PRELOADED_STATE__: PreloadedState<RootState> | undefined;
+  }
+}
+console.log("window", window.__PRELOADED_STATE__);
+const store = configureStore({
+  preloadedState: window.__PRELOADED_STATE__,
+  reducer: reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(LORApi.middleware),
+});
+
+delete window.__PRELOADED_STATE__;
 hydrateRoot(
   document.getElementById("root")!,
   <Provider store={store}>

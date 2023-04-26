@@ -31,5 +31,7 @@ export default defineConfig({
     }),
   ],
   test: vitestConfig.test,
-  build: { sourcemap: true },
+  build: {
+    sourcemap: true,
+  },
 });

@@ -8,7 +8,7 @@ import { useGetCharactersQuery } from "../utils/fetchData";
 import "./css/Cards.css";
 
 export const Cards = () => {
-  const search = useSelector((state: IRootState) => state.search.search);
+  const search = useSelector((state: IRootState) => state.search.search) || "";
 
   const {
     data = {
