@@ -11,7 +11,13 @@ const vitestConfig: VitestUserConfigInterface = {
     coverage: {
       provider: "istanbul",
       include: ["src/**/*", "tests/*"],
-      exclude: ["src/main.tsx"],
+      exclude: [
+        "src/main.tsx",
+        "src/entry-client.tsx",
+        "src/entry-server.tsx",
+        "src/pages/Html.tsx",
+        "src/utils/createApi.ts",
+      ],
       all: true,
     },
   },
