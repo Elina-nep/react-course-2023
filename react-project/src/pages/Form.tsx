@@ -1,0 +1,169 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { imgValid, lengthValid } from "../utils/checkFormValid";
+import { ErrorMessage } from "../components/ErrorMessage";
+import { FormCards } from "../components/FormCards";
+import { ICardValues, IFormValues } from "../interfaces/formInterfaces";
+import { composeNewCard } from "../utils/composeNewCard";
+import { IRootState } from "../interfaces/store";
+import { changeFormCard } from "../store/sliceFormCard";
+import "./css/Form.css";
+
+export const Form = () => {
+  const dispatch = useDispatch();
+  const cardList = useSelector((state: IRootState) => state.formCard.formCard);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<IFormValues>({
+    reValidateMode: "onSubmit",
+  });
+
+  const onSubmit: SubmitHandler<IFormValues> = (data) => {
+    const newData = { ...data, image: URL.createObjectURL(data.image![0]) };
+
+    const newCard: ICardValues = composeNewCard(newData);
+    dispatch(changeFormCard({ formCard: [...cardList, newCard] }));
+    alert("Card was added");
+    reset();
+  };
+
+  return (
+    <>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <h2>Add your card information</h2>
+
+        <input
+          type="text"
+          placeholder="Enter title"
+          id="title"
+          {...register("title", {
+            required: true,
+            maxLength: 20,
+            minLength: 3,
+            validate: (value) => lengthValid(value),
+          })}
+          aria-invalid={errors.title ? "true" : "false"}
+        />
+        {errors.title && (
+          <ErrorMessage message="Incorrect title, it should be from 3 to 20 symbols" />
+        )}
+
+        <input
+          type="text"
+          placeholder="Enter description"
+          id="description"
+          {...register("description", {
+            required: true,
+            maxLength: 100,
+            minLength: 10,
+            validate: (value) => lengthValid(value),
+          })}
+          aria-invalid={errors.description ? "true" : "false"}
+        />
+        {errors.description && (
+          <ErrorMessage message="Incorrect description, it should be from 10 to 100 symbols" />
+        )}
+
+        <input
+          type="date"
+          placeholder="Date of addition"
+          id="date"
+          {...register("date", { required: true })}
+          aria-invalid={errors.date ? "true" : "false"}
+        />
+        {errors.date && (
+          <ErrorMessage message="Incorrect date, please enter some date" />
+        )}
+
+        <div className="form-inline">
+          <input
+            type="file"
+            id="image"
+            placeholder="Upload image"
+            {...register("image", {
+              required: true,
+              validate: (value) => imgValid(value),
+            })}
+            aria-invalid={errors.image ? "true" : "false"}
+          />
+          <p>Upload your image</p>
+        </div>
+        {errors.image && (
+          <ErrorMessage message="Incorrect image: only .jpeg or .png formats" />
+        )}
+
+        <div className="form-inline">
+          <input
+            list="country"
+            id="country_input"
+            {...register("country", { required: true })}
+            aria-invalid={errors.country ? "true" : "false"}
+          />
+          <datalist id="country">
+            <option value="USA" />
+            <option value="Europe" />
+            <option value="China" />
+            <option value="Russia" />
+            <option value="Brasil" />
+          </datalist>
+          <p>Select country</p>
+        </div>
+        {errors.country && <ErrorMessage message="Please, select country" />}
+
+        <div className="form-inline">
+          <p>Is it available?</p>
+          <Controller
+            control={control}
+            name="available"
+            rules={{ required: true }}
+            aria-invalid={errors.available ? "true" : "false"}
+            render={({ field: { onChange } }) => (
+              <>
+                <input
+                  type="radio"
+                  id="available"
+                  value="true"
+                  name="isAvailable"
+                  onChange={onChange}
+                />
+                <label htmlFor="available">yes</label>
+                <input
+                  type="radio"
+                  id="not-available"
+                  value="false"
+                  name="isAvailable"
+                  onChange={onChange}
+                />
+                <label htmlFor="not-available">no</label>
+              </>
+            )}
+          />
+        </div>
+        {errors.available && (
+          <ErrorMessage message="Please, choose, please choose the status" />
+        )}
+
+        <div className="form-inline">
+          <input
+            type="checkbox"
+            id="agree"
+            {...register("agree", { required: true })}
+          />
+          <p>I agree to add the card</p>
+        </div>
+        {errors.agree && <ErrorMessage message="You should agree" />}
+
+        <button type="submit" id="submit">
+          Add card
+        </button>
+      </form>
+
+      <FormCards props={cardList} />
+    </>
+  );
+};
